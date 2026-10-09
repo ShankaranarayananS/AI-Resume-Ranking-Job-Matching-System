@@ -1,0 +1,2275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ResumeIQ — AI Resume Intelligence</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,Arial,sans-serif;
+    background:#f5f7fb;
+    color:#111827;
+}
+
+button,input,textarea{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    min-height:100vh;
+    display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:250px;
+    background:#101827;
+    color:white;
+    position:fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    padding:22px 15px;
+    display:flex;
+    flex-direction:column;
+    z-index:10;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px;
+    margin-bottom:30px;
+}
+
+.logo-box{
+    width:40px;
+    height:40px;
+    border-radius:11px;
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:19px;
+}
+
+.logo h2{
+    font-size:18px;
+}
+
+.logo p{
+    font-size:9px;
+    color:#9ca3af;
+    margin-top:2px;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.nav button{
+    border:none;
+    background:transparent;
+    color:#9ca3af;
+    padding:12px;
+    border-radius:9px;
+    text-align:left;
+    font-size:12px;
+    display:flex;
+    gap:11px;
+    align-items:center;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:#1f2937;
+    color:white;
+}
+
+.pro-card{
+    margin-top:auto;
+    background:linear-gradient(145deg,#1f2937,#312e81);
+    border-radius:13px;
+    padding:15px;
+}
+
+.pro-card h4{
+    margin:9px 0 5px;
+    font-size:12px;
+}
+
+.pro-card p{
+    color:#c7d2fe;
+    font-size:9px;
+    line-height:1.6;
+}
+
+.pro-card button{
+    width:100%;
+    border:none;
+    background:white;
+    color:#312e81;
+    border-radius:7px;
+    padding:8px;
+    font-size:10px;
+    font-weight:700;
+    margin-top:8px;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+}
+
+.topbar{
+    height:80px;
+    background:white;
+    border-bottom:1px solid #e5e7eb;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 35px;
+}
+
+.eyebrow{
+    color:#6366f1;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:1.2px;
+}
+
+.topbar h1{
+    font-size:21px;
+    margin-top:4px;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.avatar{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:#eef2ff;
+    color:#4f46e5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+}
+
+.profile strong{
+    display:block;
+    font-size:11px;
+}
+
+.profile span{
+    color:#9ca3af;
+    font-size:9px;
+}
+
+.content{
+    padding:30px 35px 60px;
+    max-width:1500px;
+    margin:auto;
+}
+
+/* HERO */
+
+.hero{
+    background:linear-gradient(135deg,#111827,#312e81);
+    border-radius:22px;
+    color:white;
+    padding:50px;
+    min-height:480px;
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    align-items:center;
+    gap:50px;
+}
+
+.badge{
+    display:inline-flex;
+    padding:7px 11px;
+    border-radius:30px;
+    background:rgba(255,255,255,.1);
+    font-size:9px;
+    margin-bottom:20px;
+}
+
+.hero h2{
+    font-size:45px;
+    line-height:1.08;
+    letter-spacing:-2px;
+    margin-bottom:18px;
+}
+
+.hero h2 span{
+    color:#a5b4fc;
+}
+
+.hero p{
+    color:#c7d2fe;
+    font-size:12px;
+    line-height:1.8;
+    max-width:560px;
+    margin-bottom:25px;
+}
+
+.primary{
+    background:#6366f1;
+    border:none;
+    color:white;
+    padding:12px 17px;
+    border-radius:8px;
+    font-weight:700;
+    font-size:11px;
+}
+
+.primary:hover{
+    background:#4f46e5;
+}
+
+.upload-box{
+    border:1.5px dashed #818cf8;
+    border-radius:17px;
+    padding:50px 20px;
+    text-align:center;
+    background:rgba(255,255,255,.06);
+}
+
+.upload-icon{
+    width:55px;
+    height:55px;
+    margin:auto;
+    border-radius:14px;
+    background:#6366f1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.upload-box h3{
+    margin-top:17px;
+    font-size:14px;
+}
+
+.upload-box p{
+    font-size:9px;
+    margin:7px 0 15px;
+}
+
+.upload-label{
+    display:inline-block;
+    background:white;
+    color:#312e81;
+    padding:10px 14px;
+    border-radius:7px;
+    font-size:10px;
+    font-weight:700;
+}
+
+.upload-label input{
+    display:none;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.stat{
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    padding:20px;
+}
+
+.stat-icon{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    background:#eef2ff;
+    color:#6366f1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:13px;
+}
+
+.stat-title{
+    font-size:10px;
+    color:#6b7280;
+}
+
+.stat-number{
+    font-size:27px;
+    font-weight:800;
+    margin:5px 0 12px;
+}
+
+.stat-number small{
+    font-size:10px;
+    color:#9ca3af;
+}
+
+.bar{
+    height:4px;
+    background:#edf0f4;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.bar div{
+    height:100%;
+    background:#6366f1;
+}
+
+/* CARDS */
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-bottom:18px;
+}
+
+.card{
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:15px;
+    padding:21px;
+    margin-bottom:18px;
+}
+
+.card-title{
+    font-size:16px;
+    margin:4px 0 17px;
+}
+
+.muted{
+    color:#6b7280;
+    font-size:11px;
+    line-height:1.7;
+}
+
+.role{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:13px 0;
+    border-bottom:1px solid #f0f1f4;
+}
+
+.role:last-child{
+    border-bottom:none;
+}
+
+.role-icon{
+    width:38px;
+    height:38px;
+    background:#f3f4f6;
+    color:#6366f1;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.role-info{
+    flex:1;
+}
+
+.role-info strong{
+    display:block;
+    font-size:12px;
+}
+
+.role-info span{
+    display:block;
+    color:#9ca3af;
+    font-size:9px;
+    margin-top:4px;
+}
+
+.match{
+    color:#16a34a;
+    font-size:13px;
+    font-weight:800;
+}
+
+.match small{
+    display:block;
+    color:#9ca3af;
+    font-size:8px;
+    font-weight:400;
+    text-align:right;
+}
+
+.improve{
+    display:flex;
+    gap:11px;
+    padding:13px 0;
+    border-bottom:1px solid #f0f1f4;
+}
+
+.improve-icon{
+    color:#f59e0b;
+}
+
+.improve-icon.good{
+    color:#16a34a;
+}
+
+.improve strong{
+    font-size:11px;
+}
+
+.improve p{
+    color:#6b7280;
+    font-size:9px;
+    line-height:1.6;
+    margin-top:4px;
+}
+
+/* RESUME ANALYSIS */
+
+.file{
+    background:white;
+    border:1px solid #e5e7eb;
+    padding:14px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.file-icon{
+    width:42px;
+    height:42px;
+    border-radius:9px;
+    background:#eef2ff;
+    color:#6366f1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.file-info{
+    flex:1;
+}
+
+.file-info strong{
+    display:block;
+    font-size:11px;
+}
+
+.file-info span{
+    display:block;
+    color:#9ca3af;
+    font-size:9px;
+    margin-top:3px;
+}
+
+.score-layout{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.score-big{
+    text-align:center;
+}
+
+.circle{
+    width:145px;
+    height:145px;
+    margin:22px auto;
+    border-radius:50%;
+    background:conic-gradient(#6366f1 82%,#e5e7eb 0);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+.circle:before{
+    content:"";
+    position:absolute;
+    width:112px;
+    height:112px;
+    border-radius:50%;
+    background:white;
+}
+
+.circle div{
+    position:relative;
+}
+
+.circle strong{
+    font-size:38px;
+}
+
+.circle span{
+    color:#9ca3af;
+    font-size:10px;
+}
+
+.score-big h2{
+    font-size:16px;
+}
+
+.analysis-line{
+    display:flex;
+    justify-content:space-between;
+    padding:15px 0;
+    border-bottom:1px solid #f0f1f4;
+    font-size:11px;
+}
+
+.analysis-line strong{
+    color:#6366f1;
+}
+
+.chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+}
+
+.chip{
+    padding:7px 9px;
+    background:#f3f4f6;
+    border-radius:6px;
+    font-size:9px;
+}
+
+.chip.warning{
+    background:#fff7ed;
+    color:#c2410c;
+}
+
+.recommend{
+    display:flex;
+    gap:14px;
+    padding:18px 0;
+    border-bottom:1px solid #f0f1f4;
+}
+
+.number{
+    color:#6366f1;
+    font-size:12px;
+    font-weight:800;
+}
+
+.recommend strong{
+    font-size:11px;
+}
+
+.recommend p{
+    color:#6b7280;
+    font-size:9px;
+    line-height:1.7;
+    margin-top:5px;
+}
+
+/* JOB ANALYZER */
+
+textarea{
+    width:100%;
+    min-height:270px;
+    resize:vertical;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    padding:15px;
+    outline:none;
+    font-size:11px;
+    line-height:1.7;
+    margin-top:15px;
+}
+
+textarea:focus{
+    border-color:#6366f1;
+    box-shadow:0 0 0 3px #eef2ff;
+}
+
+.textarea-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:10px;
+}
+
+.textarea-footer span{
+    font-size:9px;
+    color:#9ca3af;
+}
+
+.skill{
+    display:flex;
+    gap:9px;
+    align-items:center;
+    padding:13px 0;
+    border-bottom:1px solid #f0f1f4;
+}
+
+.skill strong{
+    flex:1;
+    font-size:11px;
+}
+
+.skill .yes{
+    color:#16a34a;
+}
+
+.skill .no{
+    color:#ef4444;
+}
+
+.skill small{
+    font-size:8px;
+    color:#9ca3af;
+}
+
+.change{
+    padding:19px;
+    border:1px solid #e5e7eb;
+    background:#fafafa;
+    border-radius:10px;
+    margin-top:15px;
+}
+
+.change-header{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.change-number{
+    width:29px;
+    height:29px;
+    background:#eef2ff;
+    color:#6366f1;
+    border-radius:7px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
+    font-weight:800;
+}
+
+.change-header strong{
+    font-size:11px;
+}
+
+.change-header span{
+    display:block;
+    color:#f59e0b;
+    font-size:8px;
+    margin-top:3px;
+}
+
+.before-after{
+    display:grid;
+    grid-template-columns:1fr 30px 1fr;
+    gap:13px;
+    align-items:center;
+    margin-top:18px;
+}
+
+.before-after > div{
+    background:white;
+    padding:13px;
+    border-radius:8px;
+}
+
+.before-after label{
+    font-size:8px;
+    font-weight:800;
+    color:#9ca3af;
+}
+
+.before-after p{
+    font-size:9px;
+    color:#6b7280;
+    line-height:1.7;
+    margin-top:7px;
+}
+
+.recommended{
+    border:1px solid #c7d2fe;
+    background:#f5f3ff!important;
+}
+
+.ready{
+    background:#111827;
+    color:white;
+    padding:23px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.ready-icon{
+    width:50px;
+    height:50px;
+    background:#312e81;
+    color:#a5b4fc;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.ready h2{
+    font-size:16px;
+    margin:4px 0;
+}
+
+.ready p{
+    color:#9ca3af;
+    font-size:9px;
+    line-height:1.6;
+}
+
+.ready-score{
+    margin-left:auto;
+    font-size:27px;
+    color:#a5b4fc;
+    font-weight:800;
+}
+
+/* ROLE PAGE */
+
+.role-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:17px;
+}
+
+.role-card{
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:15px;
+    padding:20px;
+}
+
+.role-top{
+    display:flex;
+    justify-content:space-between;
+}
+
+.role-card h2{
+    font-size:16px;
+    margin:15px 0 6px;
+}
+
+.role-card p{
+    color:#6b7280;
+    font-size:10px;
+    line-height:1.6;
+}
+
+.role-card .missing{
+    background:#fffbeb;
+    color:#d97706;
+    padding:9px;
+    border-radius:7px;
+    font-size:9px;
+    margin:13px 0;
+}
+
+.outline{
+    width:100%;
+    padding:9px;
+    background:white;
+    border:1px solid #d1d5db;
+    color:#4f46e5;
+    border-radius:7px;
+    font-size:9px;
+}
+
+/* SKILLS */
+
+.skill-progress{
+    margin:18px 0;
+}
+
+.skill-progress-header{
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
+    margin-bottom:6px;
+}
+
+.skill-progress-header strong{
+    color:#6366f1;
+}
+
+.progress{
+    height:5px;
+    background:#edf0f4;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress div{
+    height:100%;
+    background:#6366f1;
+}
+
+.learning{
+    display:flex;
+    gap:10px;
+    padding:15px 0;
+    border-bottom:1px solid #f0f1f4;
+}
+
+.priority{
+    height:max-content;
+    padding:5px 6px;
+    border-radius:5px;
+    font-size:7px;
+    font-weight:800;
+}
+
+.high{
+    background:#fef2f2;
+    color:#dc2626;
+}
+
+.medium{
+    background:#fffbeb;
+    color:#d97706;
+}
+
+.learning strong{
+    font-size:11px;
+}
+
+.learning p{
+    color:#6b7280;
+    font-size:9px;
+    margin-top:4px;
+    line-height:1.5;
+}
+
+/* EMPTY */
+
+.empty{
+    min-height:500px;
+    background:white;
+    border:1px dashed #c7d2fe;
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.empty h2{
+    margin:15px 0 6px;
+}
+
+.empty p{
+    color:#9ca3af;
+    font-size:10px;
+    margin-bottom:18px;
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+    .sidebar{
+        width:210px;
+    }
+
+    .main{
+        margin-left:210px;
+        width:calc(100% - 210px);
+    }
+
+    .hero{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .grid,
+    .score-layout,
+    .role-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:700px){
+
+    .app{
+        display:block;
+    }
+
+    .sidebar{
+        position:static;
+        width:100%;
+        height:auto;
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+    }
+
+    .nav{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .pro-card{
+        display:none;
+    }
+
+    .topbar{
+        padding:16px;
+    }
+
+    .content{
+        padding:18px 13px;
+    }
+
+    .hero{
+        padding:30px 20px;
+    }
+
+    .hero h2{
+        font-size:34px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .before-after{
+        grid-template-columns:1fr;
+    }
+
+    .ready{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .ready-score{
+        margin-left:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-box">✦</div>
+        <div>
+            <h2>ResumeIQ</h2>
+            <p>AI CAREER INTELLIGENCE</p>
+        </div>
+    </div>
+
+    <div class="nav">
+
+        <button class="active" onclick="showPage('dashboard',this)">
+            ◈ Dashboard
+        </button>
+
+        <button onclick="showPage('resume',this)">
+            ▣ Resume Analysis
+        </button>
+
+        <button onclick="showPage('job',this)">
+            ◉ Job Analyzer
+        </button>
+
+        <button onclick="showPage('roles',this)">
+            ◆ Recommended Roles
+        </button>
+
+        <button onclick="showPage('skills',this)">
+            ✦ Skill Gap
+        </button>
+
+    </div>
+
+    <div class="pro-card">
+        ✦
+        <h4>AI Career Insights</h4>
+        <p>
+            Get deeper resume analysis and personalized job recommendations.
+        </p>
+        <button>Explore Pro</button>
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+<header class="topbar">
+
+    <div>
+        <div class="eyebrow">AI CAREER PLATFORM</div>
+        <h1 id="pageTitle">Good evening, Candidate</h1>
+    </div>
+
+    <div class="profile">
+        <div class="avatar">C</div>
+        <div>
+            <strong>Candidate</strong>
+            <span>Job Seeker</span>
+        </div>
+    </div>
+
+</header>
+
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="page content">
+
+    <div id="hero">
+
+        <div class="hero">
+
+            <div>
+
+                <div class="badge">
+                    ✦ AI-POWERED RESUME INTELLIGENCE
+                </div>
+
+                <h2>
+                    Know your resume.<br>
+                    <span>Find your best role.</span>
+                </h2>
+
+                <p>
+                    Upload your resume and discover your strongest career
+                    paths, ATS score, missing skills, and exactly what you
+                    should improve for your target jobs.
+                </p>
+
+                <button class="primary" onclick="document.getElementById('resumeInput').click()">
+                    Analyze My Resume →
+                </button>
+
+            </div>
+
+            <div class="upload-box" id="dropZone">
+
+                <div class="upload-icon">↑</div>
+
+                <h3>Drop your resume here</h3>
+
+                <p>PDF or DOCX · Maximum 5MB</p>
+
+                <label class="upload-label">
+                    Choose Resume
+                    <input
+                        id="resumeInput"
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        onchange="uploadResume(this)"
+                    >
+                </label>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div id="dashboardContent" style="display:none;">
+
+        <div class="stats">
+
+            <div class="stat">
+                <div class="stat-icon">▣</div>
+                <div class="stat-title">Resume Score</div>
+                <div class="stat-number">82<small>/100</small></div>
+                <div class="bar"><div style="width:82%"></div></div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-icon">◎</div>
+                <div class="stat-title">ATS Compatibility</div>
+                <div class="stat-number">88<small>%</small></div>
+                <div class="bar"><div style="width:88%"></div></div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-icon">↗</div>
+                <div class="stat-title">Profile Strength</div>
+                <div class="stat-number">79<small>%</small></div>
+                <div class="bar"><div style="width:79%"></div></div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-icon">◆</div>
+                <div class="stat-title">Best Job Match</div>
+                <div class="stat-number">91<small>%</small></div>
+                <div class="bar"><div style="width:91%"></div></div>
+            </div>
+
+        </div>
+
+
+        <div class="grid">
+
+            <div class="card">
+
+                <div class="eyebrow">CAREER FIT</div>
+                <h2 class="card-title">Recommended Roles</h2>
+
+                <div class="role">
+                    <div class="role-icon">◆</div>
+                    <div class="role-info">
+                        <strong>Data Analyst</strong>
+                        <span>Python · SQL · Power BI</span>
+                    </div>
+                    <div class="match">
+                        91%
+                        <small>MATCH</small>
+                    </div>
+                </div>
+
+                <div class="role">
+                    <div class="role-icon">◆</div>
+                    <div class="role-info">
+                        <strong>Python Developer</strong>
+                        <span>Python · APIs · SQL</span>
+                    </div>
+                    <div class="match">
+                        86%
+                        <small>MATCH</small>
+                    </div>
+                </div>
+
+                <div class="role">
+                    <div class="role-icon">◆</div>
+                    <div class="role-info">
+                        <strong>Business Analyst</strong>
+                        <span>Excel · SQL · Analytics</span>
+                    </div>
+                    <div class="match">
+                        78%
+                        <small>MATCH</small>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="eyebrow">RESUME HEALTH</div>
+                <h2 class="card-title">Improvement Areas</h2>
+
+                <div class="improve">
+                    <div class="improve-icon">!</div>
+                    <div>
+                        <strong>Add measurable achievements</strong>
+                        <p>
+                            Your experience section has limited measurable results.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="improve">
+                    <div class="improve-icon">!</div>
+                    <div>
+                        <strong>Strengthen keywords</strong>
+                        <p>
+                            Add role-specific keywords to improve ATS visibility.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="improve">
+                    <div class="improve-icon good">✓</div>
+                    <div>
+                        <strong>Strong technical skills</strong>
+                        <p>
+                            Your technical skill section is well structured.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="eyebrow">QUICK ACTION</div>
+
+            <h2 class="card-title">
+                Analyze a Job Description
+            </h2>
+
+            <p class="muted">
+                Paste a job description and ResumeIQ will compare it against
+                your resume and tell you exactly what to improve.
+            </p>
+
+            <br>
+
+            <button class="primary" onclick="openJobAnalyzer()">
+                Analyze Job →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- RESUME PAGE -->
+
+<section id="resume" class="page content" style="display:none;">
+
+    <div id="resumeEmpty" class="empty">
+
+        <div style="font-size:35px;color:#6366f1;">↑</div>
+
+        <h2>Upload your resume</h2>
+
+        <p>
+            We support PDF and DOCX files up to 5MB.
+        </p>
+
+        <label class="primary">
+            Choose Resume
+            <input
+                type="file"
+                hidden
+                accept=".pdf,.doc,.docx"
+                onchange="uploadResume(this)"
+            >
+        </label>
+
+    </div>
+
+
+    <div id="resumeResults" style="display:none;">
+
+        <div class="file">
+
+            <div class="file-icon">▣</div>
+
+            <div class="file-info">
+                <strong id="fileName">resume.pdf</strong>
+                <span>Successfully uploaded · Analysis complete</span>
+            </div>
+
+            <button class="primary" onclick="showPage('job')">
+                Analyze Job →
+            </button>
+
+        </div>
+
+
+        <div class="score-layout">
+
+            <div class="card score-big">
+
+                <div class="eyebrow">OVERALL RESUME SCORE</div>
+
+                <div class="circle">
+                    <div>
+                        <strong>82</strong>
+                        <span>/100</span>
+                    </div>
+                </div>
+
+                <h2>Good resume foundation</h2>
+
+                <p class="muted">
+                    Your resume has strong technical skills and relevant
+                    projects. Focus on measurable achievements and
+                    job-specific keywords.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="eyebrow">ATS ANALYSIS</div>
+
+                <h2 class="card-title">
+                    88% Compatible
+                </h2>
+
+                <div class="analysis-line">
+                    <span>Keywords</span>
+                    <strong>79%</strong>
+                </div>
+
+                <div class="analysis-line">
+                    <span>Formatting</span>
+                    <strong>94%</strong>
+                </div>
+
+                <div class="analysis-line">
+                    <span>Structure</span>
+                    <strong>91%</strong>
+                </div>
+
+                <div class="analysis-line">
+                    <span>Readability</span>
+                    <strong>89%</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="eyebrow">EXTRACTED PROFILE</div>
+
+            <h2 class="card-title">
+                Detected Skills
+            </h2>
+
+            <div class="chips">
+
+                <span class="chip">✓ Python</span>
+                <span class="chip">✓ SQL</span>
+                <span class="chip">✓ Power BI</span>
+                <span class="chip">✓ Excel</span>
+                <span class="chip">✓ Java</span>
+                <span class="chip">✓ Machine Learning</span>
+                <span class="chip">✓ Git</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="eyebrow">AI RECOMMENDATIONS</div>
+
+            <h2 class="card-title">
+                What you should improve
+            </h2>
+
+            <div class="recommend">
+
+                <div class="number">01</div>
+
+                <div>
+
+                    <strong>
+                        Make your achievements measurable
+                    </strong>
+
+                    <p>
+                        Replace generic statements with measurable outcomes
+                        such as percentage improvements, revenue impact,
+                        performance gains, users served, or project scale.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="recommend">
+
+                <div class="number">02</div>
+
+                <div>
+
+                    <strong>
+                        Customize your professional summary
+                    </strong>
+
+                    <p>
+                        Your summary should contain technologies and role
+                        keywords relevant to the position you are applying for.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- JOB PAGE -->
+
+<section id="job" class="page content" style="display:none;">
+
+    <div class="card">
+
+        <div class="eyebrow">JOB MATCH ENGINE</div>
+
+        <h2 class="card-title">
+            Paste a Job Description
+        </h2>
+
+        <p class="muted">
+            ResumeIQ will compare the requirements against your resume
+            and identify what you need to change.
+        </p>
+
+        <textarea
+            id="jobDescription"
+            placeholder="Paste the complete job description here...
+
+Example:
+
+We are looking for a Data Analyst with strong Python, SQL,
+Power BI and Excel skills.
+
+Responsibilities:
+- Analyze large datasets
+- Build dashboards
+- Create business reports
+- Work with stakeholders
+
+Requirements:
+- Python
+- SQL
+- Power BI
+- Statistics
+- 2+ years experience"
+        ></textarea>
+
+        <div class="textarea-footer">
+
+            <span id="charCount">
+                0 characters
+            </span>
+
+            <button class="primary" onclick="analyzeJob()">
+                ✦ Analyze Job Match
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div id="jobResults" style="display:none;">
+
+        <div class="stats">
+
+            <div class="stat">
+                <div class="stat-icon">◎</div>
+                <div class="stat-title">Overall Match</div>
+                <div class="stat-number">84<small>%</small></div>
+                <div class="bar"><div style="width:84%"></div></div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-icon">✦</div>
+                <div class="stat-title">Skills Match</div>
+                <div class="stat-number">89<small>%</small></div>
+                <div class="bar"><div style="width:89%"></div></div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-icon">⌕</div>
+                <div class="stat-title">Keyword Match</div>
+                <div class="stat-number">81<small>%</small></div>
+                <div class="bar"><div style="width:81%"></div></div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-icon">◆</div>
+                <div class="stat-title">Experience Match</div>
+                <div class="stat-number">76<small>%</small></div>
+                <div class="bar"><div style="width:76%"></div></div>
+            </div>
+
+        </div>
+
+
+        <div class="grid">
+
+            <div class="card">
+
+                <div class="eyebrow">MATCHED SKILLS</div>
+
+                <h2 class="card-title">
+                    Strong Matches
+                </h2>
+
+                <div class="skill">
+                    <span class="yes">✓</span>
+                    <strong>Python</strong>
+                    <small>Matched</small>
+                </div>
+
+                <div class="skill">
+                    <span class="yes">✓</span>
+                    <strong>SQL</strong>
+                    <small>Matched</small>
+                </div>
+
+                <div class="skill">
+                    <span class="yes">✓</span>
+                    <strong>Excel</strong>
+                    <small>Matched</small>
+                </div>
+
+                <div class="skill">
+                    <span class="yes">✓</span>
+                    <strong>Power BI</strong>
+                    <small>Matched</small>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="eyebrow">SKILL GAPS</div>
+
+                <h2 class="card-title">
+                    Missing Requirements
+                </h2>
+
+                <div class="skill">
+                    <span class="no">×</span>
+                    <strong>Advanced Statistics</strong>
+                    <small>Missing</small>
+                </div>
+
+                <div class="skill">
+                    <span class="no">×</span>
+                    <strong>Tableau</strong>
+                    <small>Missing</small>
+                </div>
+
+                <div class="skill">
+                    <span class="no">×</span>
+                    <strong>ETL</strong>
+                    <small>Missing</small>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="eyebrow">AI RESUME COACH</div>
+
+            <h2 class="card-title">
+                Changes recommended for this job
+            </h2>
+
+
+            <div class="change">
+
+                <div class="change-header">
+
+                    <div class="change-number">01</div>
+
+                    <div>
+                        <strong>
+                            Improve your professional summary
+                        </strong>
+                        <span>HIGH PRIORITY</span>
+                    </div>
+
+                </div>
+
+
+                <div class="before-after">
+
+                    <div>
+
+                        <label>CURRENT</label>
+
+                        <p>
+                            "Worked on data analysis projects using Python."
+                        </p>
+
+                    </div>
+
+                    <div>→</div>
+
+                    <div class="recommended">
+
+                        <label>AI RECOMMENDATION</label>
+
+                        <p>
+                            "Analyzed and transformed datasets using Python,
+                            Pandas and SQL to identify business trends and
+                            generate actionable insights."
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="change">
+
+                <div class="change-header">
+
+                    <div class="change-number">02</div>
+
+                    <div>
+                        <strong>
+                            Add missing job keywords
+                        </strong>
+                        <span>MEDIUM PRIORITY</span>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="chips">
+                    <span class="chip warning">Statistics</span>
+                    <span class="chip warning">Tableau</span>
+                    <span class="chip warning">ETL</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="ready">
+
+            <div class="ready-icon">◎</div>
+
+            <div>
+
+                <div class="eyebrow">
+                    APPLICATION READINESS
+                </div>
+
+                <h2>
+                    Improve resume before applying
+                </h2>
+
+                <p>
+                    Your current match is strong, but adding missing skills
+                    and job-specific keywords could improve your shortlist
+                    potential.
+                </p>
+
+            </div>
+
+            <div class="ready-score">
+                84%
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ROLES PAGE -->
+
+<section id="roles" class="page content" style="display:none;">
+
+    <div style="margin-bottom:25px;">
+
+        <div class="eyebrow">AI CAREER FIT</div>
+
+        <h2 style="font-size:27px;margin:6px 0;">
+            Roles you can target
+        </h2>
+
+        <p class="muted">
+            Recommendations are based on your detected skills,
+            projects, education and experience.
+        </p>
+
+    </div>
+
+
+    <div class="role-grid">
+
+        <div class="role-card">
+
+            <div class="role-top">
+
+                <div class="role-icon">◆</div>
+
+                <div class="match">
+                    91%
+                    <small>MATCH</small>
+                </div>
+
+            </div>
+
+            <h2>Data Analyst</h2>
+
+            <p>
+                Strong alignment based on your Python, SQL, Excel,
+                Power BI and analytics skills.
+            </p>
+
+            <div class="chips">
+                <span class="chip">Python</span>
+                <span class="chip">SQL</span>
+                <span class="chip">Power BI</span>
+                <span class="chip">Excel</span>
+            </div>
+
+            <div class="missing">
+                Missing: Advanced Statistics
+            </div>
+
+            <button class="outline">
+                View Role Analysis →
+            </button>
+
+        </div>
+
+
+        <div class="role-card">
+
+            <div class="role-top">
+
+                <div class="role-icon">◆</div>
+
+                <div class="match">
+                    86%
+                    <small>MATCH</small>
+                </div>
+
+            </div>
+
+            <h2>Python Developer</h2>
+
+            <p>
+                Strong alignment based on Python, APIs, SQL and
+                programming fundamentals.
+            </p>
+
+            <div class="chips">
+                <span class="chip">Python</span>
+                <span class="chip">SQL</span>
+                <span class="chip">APIs</span>
+            </div>
+
+            <div class="missing">
+                Missing: Django
+            </div>
+
+            <button class="outline">
+                View Role Analysis →
+            </button>
+
+        </div>
+
+
+        <div class="role-card">
+
+            <div class="role-top">
+
+                <div class="role-icon">◆</div>
+
+                <div class="match">
+                    78%
+                    <small>MATCH</small>
+                </div>
+
+            </div>
+
+            <h2>Business Analyst</h2>
+
+            <p>
+                Good fit based on analytics, Excel, SQL and
+                business reporting capabilities.
+            </p>
+
+            <div class="chips">
+                <span class="chip">Excel</span>
+                <span class="chip">SQL</span>
+                <span class="chip">Analytics</span>
+            </div>
+
+            <div class="missing">
+                Missing: Requirements Analysis
+            </div>
+
+            <button class="outline">
+                View Role Analysis →
+            </button>
+
+        </div>
+
+
+        <div class="role-card">
+
+            <div class="role-top">
+
+                <div class="role-icon">◆</div>
+
+                <div class="match">
+                    71%
+                    <small>MATCH</small>
+                </div>
+
+            </div>
+
+            <h2>ML Engineer</h2>
+
+            <p>
+                Your Python and machine learning foundation provides
+                a good starting point.
+            </p>
+
+            <div class="chips">
+                <span class="chip">Python</span>
+                <span class="chip">ML</span>
+            </div>
+
+            <div class="missing">
+                Missing: TensorFlow, MLOps
+            </div>
+
+            <button class="outline">
+                View Role Analysis →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SKILLS PAGE -->
+
+<section id="skills" class="page content" style="display:none;">
+
+    <div style="margin-bottom:25px;">
+
+        <div class="eyebrow">SKILL INTELLIGENCE</div>
+
+        <h2 style="font-size:27px;margin:6px 0;">
+            Understand your skill gaps
+        </h2>
+
+        <p class="muted">
+            Identify your strongest skills and the areas that
+            can improve your career opportunities.
+        </p>
+
+    </div>
+
+
+    <div class="grid">
+
+        <div class="card">
+
+            <div class="eyebrow">STRONG SKILLS</div>
+
+            <h2 class="card-title">
+                Your strengths
+            </h2>
+
+            <div class="skill-progress">
+
+                <div class="skill-progress-header">
+                    <span>Python</span>
+                    <strong>92%</strong>
+                </div>
+
+                <div class="progress">
+                    <div style="width:92%"></div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-progress">
+
+                <div class="skill-progress-header">
+                    <span>SQL</span>
+                    <strong>87%</strong>
+                </div>
+
+                <div class="progress">
+                    <div style="width:87%"></div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-progress">
+
+                <div class="skill-progress-header">
+                    <span>Power BI</span>
+                    <strong>84%</strong>
+                </div>
+
+                <div class="progress">
+                    <div style="width:84%"></div>
+                </div>
+
+            </div>
+
+
+            <div class="skill-progress">
+
+                <div class="skill-progress-header">
+                    <span>Excel</span>
+                    <strong>82%</strong>
+                </div>
+
+                <div class="progress">
+                    <div style="width:82%"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="eyebrow">LEARNING PRIORITY</div>
+
+            <h2 class="card-title">
+                Skills to develop
+            </h2>
+
+
+            <div class="learning">
+
+                <span class="priority high">
+                    HIGH
+                </span>
+
+                <div>
+
+                    <strong>
+                        Advanced Statistics
+                    </strong>
+
+                    <p>
+                        Important for Data Analyst and Data Scientist roles.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="learning">
+
+                <span class="priority medium">
+                    MEDIUM
+                </span>
+
+                <div>
+
+                    <strong>
+                        Tableau
+                    </strong>
+
+                    <p>
+                        Can increase your business intelligence job compatibility.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="learning">
+
+                <span class="priority medium">
+                    MEDIUM
+                </span>
+
+                <div>
+
+                    <strong>
+                        ETL
+                    </strong>
+
+                    <p>
+                        Useful for analytics engineering and data roles.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<script>
+
+let uploadedResume = false;
+
+
+/* PAGE NAVIGATION */
+
+function showPage(page, button){
+
+    document.querySelectorAll(".page").forEach(function(p){
+        p.style.display = "none";
+    });
+
+    document.getElementById(page).style.display = "block";
+
+    document.querySelectorAll(".nav button").forEach(function(btn){
+        btn.classList.remove("active");
+    });
+
+    if(button){
+        button.classList.add("active");
+    }
+
+    const titles = {
+        dashboard:"HELLO, Candidate",
+        resume:"Resume Analysis",
+        job:"Job Description Analyzer",
+        roles:"Recommended Roles",
+        skills:"Skill Gap Analysis"
+    };
+
+    document.getElementById("pageTitle").innerText = titles[page];
+}
+
+
+/* RESUME UPLOAD */
+
+function uploadResume(input){
+
+    const file = input.files[0];
+
+    if(!file){
+        return;
+    }
+
+    const allowed = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ];
+
+    const extension = file.name.split(".").pop().toLowerCase();
+
+    if(!["pdf","doc","docx"].includes(extension)){
+        alert("Please upload a PDF or DOCX resume.");
+        return;
+    }
+
+    if(file.size > 5 * 1024 * 1024){
+        alert("Maximum file size is 5MB.");
+        return;
+    }
+
+    uploadedResume = true;
+
+    document.getElementById("hero").style.display = "none";
+
+    document.getElementById("dashboardContent").style.display = "block";
+
+    document.getElementById("fileName").innerText = file.name;
+
+    document.getElementById("resumeEmpty").style.display = "none";
+
+    document.getElementById("resumeResults").style.display = "block";
+
+    showPage("dashboard");
+
+}
+
+
+/* OPEN JOB ANALYZER */
+
+function openJobAnalyzer(){
+
+    document.querySelectorAll(".page").forEach(function(p){
+        p.style.display = "none";
+    });
+
+    document.getElementById("job").style.display = "block";
+
+    document.querySelectorAll(".nav button").forEach(function(btn){
+        btn.classList.remove("active");
+    });
+
+    document.querySelectorAll(".nav button")[2].classList.add("active");
+
+    document.getElementById("pageTitle").innerText =
+        "Job Description Analyzer";
+
+}
+
+
+/* JOB CHARACTER COUNT */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+    const textarea =
+        document.getElementById("jobDescription");
+
+    textarea.addEventListener("input",function(){
+
+        document.getElementById("charCount").innerText =
+            textarea.value.length + " characters";
+
+    });
+
+});
+
+
+/* JOB ANALYSIS */
+
+function analyzeJob(){
+
+    const description =
+        document.getElementById("jobDescription").value.trim();
+
+    if(description.length < 30){
+
+        alert(
+            "Please enter a detailed job description."
+        );
+
+        return;
+    }
+
+    document.getElementById("jobResults").style.display =
+        "block";
+
+    document.getElementById("jobResults").scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* DRAG AND DROP */
+
+const dropZone =
+    document.getElementById("dropZone");
+
+if(dropZone){
+
+    dropZone.addEventListener("dragover",function(e){
+
+        e.preventDefault();
+
+        dropZone.style.background =
+            "rgba(129,140,248,.15)";
+
+    });
+
+    dropZone.addEventListener("dragleave",function(){
+
+        dropZone.style.background =
+            "rgba(255,255,255,.06)";
+
+    });
+
+    dropZone.addEventListener("drop",function(e){
+
+        e.preventDefault();
+
+        dropZone.style.background =
+            "rgba(255,255,255,.06)";
+
+        const file =
+            e.dataTransfer.files[0];
+
+        if(file){
+
+            const fakeInput =
+                document.getElementById("resumeInput");
+
+            const dataTransfer =
+                new DataTransfer();
+
+            dataTransfer.items.add(file);
+
+            fakeInput.files =
+                dataTransfer.files;
+
+            uploadResume(fakeInput);
+
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
